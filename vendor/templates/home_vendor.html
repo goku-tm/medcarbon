@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MediCarbon – CO2 Emissions Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --accent: #22c55e;
+      --accent-red: #ef4444;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --sidebar-bg: #ffffff;
+      --sidebar-border: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      padding: 16px 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #10b981;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .nav-list { list-style: none; padding: 0; margin: 0; }
+    .nav-item { margin-bottom: 4px; }
+
+    .nav-link {
+      display: block;
+      padding: 8px 10px;
+      margin-bottom: 4px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .nav-link.active {
+      background: #ecfdf5;
+      color: #059669;
+      font-weight: 600;
+    }
+
+    /* Main layout */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .col-3 { grid-column: span 3; }
+    .col-6 { grid-column: span 6; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px 18px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* Smaller Chart Styling */
+    .chart-box {
+      width: 100%;
+      height: 160px;
+      padding: 10px;
+    }
+
+    .chart-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .summary-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 12px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+
+<body data-active-page="home">
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">M</div>
+      <div class="brand-name">MediCarbon</div>
+    </div>
+    <ul class="nav-list" id="nav-list"></ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <h2>Emissions Overview</h2>
+    <p style="color: var(--text-muted)">Track your carbon footprint trends</p>
+
+    <!-- KPI CARDS -->
+    <section class="grid" id="overview-grid">
+
+      <div class="card col-3">
+        <div class="card-title" id="total-co2-title"></div>
+        <div class="kpi-value"><span id="total-co2-value"></span> <span id="total-co2-unit"></span></div>
+        <div id="total-co2-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-title" id="no2-title"></div>
+        <div class="kpi-value"><span id="no2-value"></span> <span id="no2-unit"></span></div>
+        <div id="no2-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-title" id="ch4-title"></div>
+        <div class="kpi-value"><span id="ch4-value"></span> <span id="ch4-unit"></span></div>
+        <div id="ch4-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-title" id="n2o-title"></div>
+        <div class="kpi-value"><span id="n2o-value"></span> <span id="n2o-unit"></span></div>
+        <div id="n2o-trend"></div>
+      </div>
+
+    </section>
+
+    <!-- Charts -->
+    <section class="grid">
+
+      <div class="card col-6">
+        <div class="card-title">Emissions Distribution</div>
+        <div class="chart-box">
+          <canvas id="emissionsChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card col-6">
+        <div class="card-title">Manufacturing Phase Analysis</div>
+        <div class="chart-box">
+          <canvas id="manufacturingChart"></canvas>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Waste -->
+    <section class="grid">
+
+      <div class="card col-6">
+        <div class="card-title">Waste Distribution Overview</div>
+        <div class="chart-box">
+          <canvas id="wasteChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card col-6">
+        <div class="card-title">Waste Management Summary</div>
+        <ul class="summary-list" id="wasteSummaryList"></ul>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script>
+  function buildNav(navItems) {
+    const list = document.getElementById("nav-list");
+    const activePage = document.body.getAttribute("data-active-page");
+    navItems.forEach(item => {
+      const li = document.createElement("li");
+      li.className = "nav-item";
+      const a = document.createElement("a");
+      a.className = "nav-link" + (item.id === activePage ? " active" : "");
+      a.href = item.href || "#";
+      a.textContent = item.label;
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }
+
+  function renderTrend(el, trend) {
+    if (!trend) return;
+    const arrow = trend.direction === "down" ? "↓ " : "↑ ";
+    el.textContent = arrow + trend.text;
+    el.style.color = trend.direction === "down" ? "green" : "red";
+  }
+
+  function createPieChart(ctx, labels, values, colors) {
+    return new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: labels,
+        datasets: [{ data: values, backgroundColor: colors }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          }
+        }
+      }
+    });
+  }
+
+  fetch("../vendor.json")
+    .then(r => r.json())
+    .then(data => {
+
+      // Sidebar navigation
+      buildNav(data.navigation);
+
+      // KPI
+      const ov = data.overview;
+      document.getElementById("total-co2-title").textContent = ov.total_co2.title;
+      document.getElementById("total-co2-value").textContent = ov.total_co2.value;
+      document.getElementById("total-co2-unit").textContent = ov.total_co2.unit;
+      renderTrend(document.getElementById("total-co2-trend"), ov.total_co2.trend);
+
+      document.getElementById("no2-title").textContent = ov.no2.title;
+      document.getElementById("no2-value").textContent = ov.no2.value;
+      document.getElementById("no2-unit").textContent = ov.no2.unit;
+      renderTrend(document.getElementById("no2-trend"), ov.no2.trend);
+
+      document.getElementById("ch4-title").textContent = ov.ch4.title;
+      document.getElementById("ch4-value").textContent = ov.ch4.value;
+      document.getElementById("ch4-unit").textContent = ov.ch4.unit;
+      renderTrend(document.getElementById("ch4-trend"), ov.ch4.trend);
+
+      document.getElementById("n2o-title").textContent = ov.n2o.title;
+      document.getElementById("n2o-value").textContent = ov.n2o.value;
+      document.getElementById("n2o-unit").textContent = ov.n2o.unit;
+      renderTrend(document.getElementById("n2o-trend"), ov.n2o.trend);
+
+      // Charts
+      createPieChart(
+        document.getElementById("emissionsChart"),
+        data.emissions_distribution.map(x => x.label),
+        data.emissions_distribution.map(x => x.percent),
+        data.emissions_distribution.map(x => x.color)
+      );
+
+      createPieChart(
+        document.getElementById("manufacturingChart"),
+        data.manufacturing_phases.map(x => x.label),
+        data.manufacturing_phases.map(x => x.percent),
+        data.manufacturing_phases.map(x => x.color)
+      );
+
+      createPieChart(
+        document.getElementById("wasteChart"),
+        data.waste_distribution.map(x => x.label),
+        data.waste_distribution.map(x => x.percent),
+        data.waste_distribution.map(x => x.color)
+      );
+
+      // Waste summary
+      const summary = document.getElementById("wasteSummaryList");
+      data.waste_distribution.forEach(item => {
+        summary.innerHTML += `
+          <li class="summary-item">
+            <span><span class="legend-dot" style="background:${item.color}"></span>${item.label}</span>
+            <span>${item.percent}%</span>
+          </li>`;
+      });
+
+    });
+</script>
+
+</body>
+</html>

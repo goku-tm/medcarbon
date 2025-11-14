@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MediCarbon – Sales Prep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card-bg: #ffffff;
+      --accent: #22c55e;
+      --accent-soft: #ecfdf5;
+      --accent-blue-soft: #e0f2fe;
+      --accent-gray-soft: #f3f4f6;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    .back-link {
+      font-size: 13px;
+      color: #4b5563;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .col-12 { grid-column: span 12; }
+    .col-6 { grid-column: span 6; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px 18px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .prep-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .prep-item {
+      display: flex;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .prep-item:last-child { border-bottom: none; }
+
+    .prep-step-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      flex-shrink: 0;
+    }
+
+    .prep-text-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .prep-text-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .best-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .highlight-box {
+      border-radius: 10px;
+      background: var(--accent-gray-soft);
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .highlight-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .highlight-value {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .advantages-list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .advantage-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .advantage-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .advantage-green {
+      background: var(--accent-soft);
+      color: #059669;
+    }
+    .advantage-blue {
+      background: var(--accent-blue-soft);
+      color: #0369a1;
+    }
+    .advantage-neutral {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .advantage-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .advantage-desc {
+      color: var(--text-muted);
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .comparison-table th {
+      background: #f9fafb;
+      font-weight: 600;
+    }
+
+    .download-btn {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 8px;
+      padding: 10px 16px;
+      border: none;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .download-btn:hover { filter: brightness(0.95); }
+
+    @media (max-width: 800px) {
+      .page { padding-inline: 12px; }
+      .grid { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .col-6, .col-12 { grid-column: span 1; }
+      .best-form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <a href="portfolio.html" class="back-link">&#8592; Back to Dashboard</a>
+
+  <h1 class="page-title" id="heroTitle">Sales Prep Page</h1>
+  <p class="page-subtitle" id="heroSubtitle">
+    This page is merged/redirected from the Dashboard. Use this sleek UI to prep and present to hospitals.
+  </p>
+
+  <section class="grid">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-title">Prep Modules</div>
+        <ul class="prep-list" id="prepModules"></ul>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-title">Product in Best Form</div>
+
+        <div class="best-form-grid">
+          <div class="highlight-box">
+            <div class="highlight-label">Price</div>
+            <div class="highlight-value" id="bestPrice">$100</div>
+            <div style="font-size:11px; margin-top:4px;">per unit</div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-label">Quality</div>
+            <div class="highlight-value" id="bestQuality">95% efficacy</div>
+          </div>
+        </div>
+
+        <div class="card-title" style="font-size:14px; margin-top:4px;">
+          Advantages of Switching
+        </div>
+        <div class="advantages-list" id="advantagesList"></div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card">
+        <div class="card-title">Comparison Table (with Market Data)</div>
+        <table class="comparison-table">
+          <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Our Product</th>
+            <th>Market Average</th>
+          </tr>
+          </thead>
+          <tbody id="comparisonBody">
+          <!-- rows injected here -->
+          </tbody>
+        </table>
+
+        <button class="download-btn" type="button">
+          &#128190; Download Pitch Deck
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+  }
+
+  function buildPrepModules(list, modules) {
+    list.innerHTML = "";
+    modules.forEach(m => {
+      const li = document.createElement("li");
+      li.className = "prep-item";
+
+      const badge = document.createElement("div");
+      badge.className = "prep-step-badge";
+      badge.textContent = m.step;
+
+      const textWrapper = document.createElement("div");
+      const title = document.createElement("div");
+      title.className = "prep-text-title";
+      title.textContent = m.title;
+      const sub = document.createElement("div");
+      sub.className = "prep-text-sub";
+      sub.textContent = m.subtitle;
+
+      textWrapper.appendChild(title);
+      textWrapper.appendChild(sub);
+
+      li.appendChild(badge);
+      li.appendChild(textWrapper);
+      list.appendChild(li);
+    });
+  }
+
+  function iconFor(type) {
+    if (type === "leaf") return "🌿";
+    if (type === "dollar") return "💲";
+    return "✓";
+  }
+
+  function toneClass(tone) {
+    if (tone === "green") return "advantage-green";
+    if (tone === "blue") return "advantage-blue";
+    return "advantage-neutral";
+  }
+
+  function buildAdvantages(container, advantages) {
+    container.innerHTML = "";
+    advantages.forEach(a => {
+      const row = document.createElement("div");
+      row.className = "advantage-row";
+
+      const icon = document.createElement("div");
+      icon.className = "advantage-icon " + toneClass(a.tone);
+      icon.textContent = iconFor(a.icon);
+
+      const text = document.createElement("div");
+      const title = document.createElement("div");
+      title.className = "advantage-title";
+      title.textContent = a.title;
+      const desc = document.createElement("div");
+      desc.className = "advantage-desc";
+      desc.textContent = a.description;
+
+      text.appendChild(title);
+      text.appendChild(desc);
+
+      row.appendChild(icon);
+      row.appendChild(text);
+      container.appendChild(row);
+    });
+  }
+
+  function buildComparison(bodyEl, comp) {
+    bodyEl.innerHTML = "";
+
+    const rows = [
+      {
+        aspect: "Emissions (CO\u2082/unit)",
+        our: comp.emissions ? comp.emissions.our_value || "" : "",
+        market: comp.emissions ? comp.emissions.market_value || "" : ""
+      },
+      {
+        aspect: "Price",
+        our: comp.price ? comp.price.our_price || "" : "",
+        market: comp.price ? comp.price.market_price || "" : ""
+      },
+      {
+        aspect: "Quality Rating",
+        our: comp.quality ? comp.quality.our_quality || "" : "",
+        market: comp.quality ? comp.quality.market_quality || "" : ""
+      }
+    ];
+
+    rows.forEach(r => {
+      const tr = document.createElement("tr");
+      const tdA = document.createElement("td");
+      const tdO = document.createElement("td");
+      const tdM = document.createElement("td");
+      tdA.textContent = r.aspect;
+      tdO.textContent = r.our;
+      tdM.textContent = r.market;
+      tr.appendChild(tdA);
+      tr.appendChild(tdO);
+      tr.appendChild(tdM);
+      bodyEl.appendChild(tr);
+    });
+  }
+
+  const itemKey = getQueryParam("item");
+
+  fetch("../vendor.json")
+    .then(r => r.json())
+    .then(data => {
+      const items = data.portfolio_items || [];
+      const item = items.find(x => x.item_key === itemKey) || items[0];
+
+      const mkt = item.marketing_detail || {};
+      const comp = mkt.market_comparison || {};
+
+      document.getElementById("heroTitle").textContent =
+        mkt.hero_text || ("Sales Prep Page - Marketing Module for " + (item.display_name || item.item_key));
+
+      document.getElementById("heroSubtitle").textContent =
+        "This page is merged/redirected from the Dashboard. Use this sleek UI to prep and present to hospitals, highlighting sustainability and performance.";
+
+      buildPrepModules(
+        document.getElementById("prepModules"),
+        mkt.prep_modules || []
+      );
+
+      document.getElementById("bestPrice").textContent =
+        (mkt.best_form && mkt.best_form.price_per_unit) || "$100";
+
+      document.getElementById("bestQuality").textContent =
+        (mkt.best_form && mkt.best_form.quality_label) || "95% efficacy";
+
+      buildAdvantages(
+        document.getElementById("advantagesList"),
+        mkt.advantages || []
+      );
+
+      buildComparison(
+        document.getElementById("comparisonBody"),
+        comp
+      );
+    });
+</script>
+</body>
+</html>

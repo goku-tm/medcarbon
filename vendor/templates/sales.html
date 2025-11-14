@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MediCarbon – Sales Analytics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --accent: #22c55e;
+      --accent-red: #ef4444;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --sidebar-bg: #ffffff;
+      --sidebar-border: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .app-shell { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 220px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      padding: 16px 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .brand-name { font-weight: 700; }
+
+    .nav-list { list-style: none; padding: 0; margin: 0; }
+    .nav-item { margin-bottom: 4px; }
+    .nav-link {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .nav-link.active {
+      background: #ecfdf5;
+      color: #059669;
+      font-weight: 600;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .page-header { display: flex; flex-direction: column; gap: 4px; }
+    .page-title { font-size: 22px; font-weight: 700; }
+    .page-subtitle { font-size: 13px; color: var(--text-muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .col-3 { grid-column: span 3; }
+    .col-6 { grid-column: span 6; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px 18px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value { font-size: 24px; font-weight: 700; }
+    .kpi-prefix { font-size: 16px; margin-right: 2px; }
+    .kpi-unit { font-size: 14px; color: var(--text-muted); margin-left: 4px; }
+    .kpi-trend { font-size: 12px; margin-top: 4px; }
+    .trend-up { color: var(--accent-red); }
+    .trend-down { color: var(--accent); }
+
+    .chart-box {
+      width: 100%;
+      height: 260px;
+      padding: 10px;
+    }
+    .chart-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar { display: none; }
+      .main { padding: 12px; }
+      .col-3, .col-6 { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body data-active-page="sales">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">M</div>
+      <div class="brand-name">MediCarbon</div>
+    </div>
+    <ul class="nav-list" id="nav-list"></ul>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div class="page-title">Sales Analytics</div>
+      <div class="page-subtitle">Track revenue and carbon credit performance</div>
+    </header>
+
+    <!-- KPIs -->
+    <section class="grid">
+      <div class="card col-3">
+        <div class="card-subtitle" id="s-rev-title"></div>
+        <div class="kpi-value">
+          <span class="kpi-prefix">$</span><span id="s-rev-value"></span>
+        </div>
+        <div class="kpi-trend" id="s-rev-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-subtitle" id="s-units-title"></div>
+        <div class="kpi-value"><span id="s-units-value"></span></div>
+        <div class="kpi-trend" id="s-units-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-subtitle" id="s-credits-title"></div>
+        <div class="kpi-value"><span id="s-credits-value"></span></div>
+        <div class="kpi-trend" id="s-credits-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-subtitle" id="s-aov-title"></div>
+        <div class="kpi-value">
+          <span class="kpi-prefix">$</span><span id="s-aov-value"></span>
+        </div>
+        <div class="kpi-trend" id="s-aov-trend"></div>
+      </div>
+    </section>
+
+    <!-- Revenue & Units -->
+    <section class="card">
+      <div class="card-title">Revenue &amp; Units Trend</div>
+      <div class="chart-box">
+        <canvas id="revUnitsChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Bottom charts -->
+    <section class="grid">
+      <div class="card col-6">
+        <div class="card-title">Top Products</div>
+        <div class="chart-box">
+          <canvas id="topProductsChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card col-6">
+        <div class="card-title">Carbon Credits Earned</div>
+        <div class="chart-box">
+          <canvas id="creditsChart"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  function buildNav(items) {
+    const list = document.getElementById("nav-list");
+    const active = document.body.getAttribute("data-active-page");
+    items.forEach(it => {
+      const li = document.createElement("li");
+      li.className = "nav-item";
+      const a = document.createElement("a");
+      a.className = "nav-link" + (it.id === active ? " active" : "");
+      a.href = it.href || "#";
+      a.textContent = it.label;
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }
+
+  function renderTrend(el, t) {
+    if (!t) return;
+    const dirClass = t.direction === "down" ? "trend-down" : "trend-up";
+    const arrow = t.direction === "down" ? "▼ " : "▲ ";
+    el.classList.add(dirClass);
+    el.textContent = arrow + t.text;
+  }
+
+  fetch("../vendor.json")
+    .then(r => r.json())
+    .then(data => {
+      buildNav(data.navigation);
+
+      const so = data.sales_overview;
+      document.getElementById("s-rev-title").textContent = so.total_revenue.title;
+      document.getElementById("s-rev-value").textContent = so.total_revenue.value.toLocaleString();
+      renderTrend(document.getElementById("s-rev-trend"), so.total_revenue.trend);
+
+      document.getElementById("s-units-title").textContent = so.units_sold.title;
+      document.getElementById("s-units-value").textContent = so.units_sold.value.toLocaleString();
+      renderTrend(document.getElementById("s-units-trend"), so.units_sold.trend);
+
+      document.getElementById("s-credits-title").textContent = so.carbon_credits.title;
+      document.getElementById("s-credits-value").textContent = so.carbon_credits.value;
+      renderTrend(document.getElementById("s-credits-trend"), so.carbon_credits.trend);
+
+      document.getElementById("s-aov-title").textContent = so.avg_order_value.title;
+      document.getElementById("s-aov-value").textContent = so.avg_order_value.value.toFixed(2);
+      renderTrend(document.getElementById("s-aov-trend"), so.avg_order_value.trend);
+
+      const ru = data.sales_revenue_units;
+      const ctxRU = document.getElementById("revUnitsChart");
+      new Chart(ctxRU, {
+        type: "line",
+        data: {
+          labels: ru.months,
+          datasets: [
+            {
+              label: "Revenue ($)",
+              data: ru.revenue,
+              borderColor: "#22c55e",
+              backgroundColor: "rgba(34,197,94,0.35)",
+              tension: 0.3,
+              fill: true,
+              yAxisID: "y"
+            },
+            {
+              label: "Units Sold",
+              data: ru.units,
+              borderColor: "#0f172a",
+              backgroundColor: "#0f172a",
+              tension: 0.3,
+              fill: false,
+              yAxisID: "y1",
+              pointRadius: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } },
+            tooltip: { mode: "index", intersect: false }
+          },
+          interaction: { mode: "index", intersect: false },
+          scales: {
+            y: {
+              position: "left",
+              beginAtZero: true,
+              grid: { color: "#e5e7eb" }
+            },
+            y1: {
+              position: "right",
+              beginAtZero: true,
+              grid: { drawOnChartArea: false }
+            },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // Top products
+      const tp = data.sales_top_products;
+      const ctxTP = document.getElementById("topProductsChart");
+      new Chart(ctxTP, {
+        type: "bar",
+        data: {
+          labels: tp.map(x => x.label),
+          datasets: [{
+            label: "Revenue ($)",
+            data: tp.map(x => x.revenue),
+            backgroundColor: "#10b981"
+          }]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { beginAtZero: true, grid: { color: "#e5e7eb" } },
+            y: { grid: { display: false } }
+          }
+        }
+      });
+
+      // Credits line
+      const sc = data.sales_credits;
+      const ctxC = document.getElementById("creditsChart");
+      new Chart(ctxC, {
+        type: "line",
+        data: {
+          labels: sc.months,
+          datasets: [{
+            label: "Credits",
+            data: sc.values,
+            borderColor: "#22c55e",
+            backgroundColor: "rgba(34,197,94,0.3)",
+            fill: false,
+            tension: 0.3,
+            pointRadius: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: "#e5e7eb" } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,610 @@
+{
+    "navigation": [
+      { "id": "home", "label": "Home", "href": "this.html" },
+      { "id": "emissions", "label": "Emissions", "href": "emissions.html" },
+      { "id": "waste", "label": "Waste Disposal", "href": "waste.html" },
+      { "id": "sales", "label": "Sales", "href": "sales.html" },
+      { "id": "portfolio", "label": "Portfolio", "href": "portfolio.html" }
+    ],
+  
+    "overview": {
+      "total_co2": {
+        "title": "Total CO\u2082",
+        "value": 1234,
+        "unit": "kg",
+        "trend": { "direction": "down", "text": "12% vs last year" }
+      },
+      "no2": {
+        "title": "NO\u2082 Emissions",
+        "value": 456,
+        "unit": "kg",
+        "trend": { "direction": "up", "text": "8% vs last year" }
+      },
+      "ch4": {
+        "title": "Methane (CH\u2084)",
+        "value": 89,
+        "unit": "kg",
+        "trend": { "direction": "down", "text": "5% vs last year" }
+      },
+      "n2o": {
+        "title": "N\u2082O",
+        "value": 34,
+        "unit": "kg",
+        "trend": { "direction": "down", "text": "15% vs last year" }
+      }
+    },
+  
+    "emissions_distribution": [
+      { "label": "CO\u2082, 68%", "percent": 68, "color": "#111827" },
+      { "label": "NO\u2082, 25%", "percent": 25, "color": "#f97316" },
+      { "label": "CH\u2084, 5%", "percent": 5, "color": "#facc15" },
+      { "label": "N\u2082O, 2%", "percent": 2, "color": "#6366f1" }
+    ],
+  
+    "manufacturing_phases": [
+      { "label": "Raw Material 30%", "percent": 30, "color": "#22c55e" },
+      { "label": "Production 45%", "percent": 45, "color": "#3b82f6" },
+      { "label": "Assembly 15%", "percent": 15, "color": "#f59e0b" },
+      { "label": "Packaging 10%", "percent": 10, "color": "#ef4444" }
+    ],
+  
+    "waste_distribution": [
+      { "label": "Recyclable", "percent": 55, "color": "#22c55e" },
+      { "label": "Biodegradable", "percent": 25, "color": "#3b82f6" },
+      { "label": "Hazardous", "percent": 12, "color": "#ef4444" },
+      { "label": "General", "percent": 8, "color": "#6b7280" }
+    ],
+  
+    "emissions_trend": {
+      "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      "series": [
+        {
+          "label": "CO\u2082 (kg)",
+          "color": "#111827",
+          "values": [1050, 1100, 1200, 1180, 1250, 1260]
+        },
+        {
+          "label": "NO\u2082 (kg)",
+          "color": "#ef4444",
+          "values": [360, 370, 380, 375, 390, 385]
+        },
+        {
+          "label": "CH\u2084 (kg)",
+          "color": "#f97316",
+          "values": [90, 92, 95, 94, 96, 97]
+        },
+        {
+          "label": "N\u2082O (kg)",
+          "color": "#6366f1",
+          "values": [35, 36, 40, 38, 39, 40]
+        }
+      ]
+    },
+  
+    "emissions_by_source": {
+      "labels": ["Energy", "Transportation", "Manufacturing", "Waste"],
+      "values": [450, 320, 290, 170],
+      "color": "#10b981"
+    },
+  
+    "waste_overview": {
+      "total": {
+        "title": "Total Waste",
+        "value": 2450,
+        "unit": "kg",
+        "trend": { "direction": "down", "text": "8% vs last year" }
+      },
+      "recyclable": {
+        "title": "Recyclable",
+        "value": 1347,
+        "unit": "kg",
+        "trend": { "direction": "up", "text": "12% vs last year" }
+      },
+      "hazardous": {
+        "title": "Hazardous",
+        "value": 294,
+        "unit": "kg",
+        "trend": { "direction": "down", "text": "15% vs last year" }
+      },
+      "biodegradable": {
+        "title": "Biodegradable",
+        "value": 612,
+        "unit": "kg",
+        "trend": { "direction": "up", "text": "5% vs last year" }
+      }
+    },
+  
+    "waste_trend": {
+      "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      "series": [
+        {
+          "label": "Recyclable (kg)",
+          "color": "#22c55e",
+          "values": [1300, 1350, 1300, 1400, 1380, 1420]
+        },
+        {
+          "label": "Biodegradable (kg)",
+          "color": "#3b82f6",
+          "values": [620, 640, 610, 630, 650, 670]
+        },
+        {
+          "label": "Hazardous (kg)",
+          "color": "#ef4444",
+          "values": [340, 350, 300, 330, 320, 340]
+        }
+      ]
+    },
+  
+    "sales_overview": {
+      "total_revenue": {
+        "title": "Total Revenue",
+        "value": 67000,
+        "unit": "$",
+        "trend": { "direction": "up", "text": "15% vs last month" }
+      },
+      "units_sold": {
+        "title": "Units Sold",
+        "value": 1150,
+        "unit": "",
+        "trend": { "direction": "up", "text": "12% vs last month" }
+      },
+      "carbon_credits": {
+        "title": "Carbon Credits",
+        "value": 172,
+        "unit": "",
+        "trend": { "direction": "up", "text": "18% vs last month" }
+      },
+      "avg_order_value": {
+        "title": "Avg. Order Value",
+        "value": 58.26,
+        "unit": "$",
+        "trend": { "direction": "up", "text": "3% vs last month" }
+      }
+    },
+  
+    "sales_revenue_units": {
+      "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      "revenue": [45000, 52000, 49000, 61000, 59000, 67000],
+      "units": [800, 920, 880, 1050, 1020, 1150]
+    },
+  
+    "sales_top_products": [
+      { "label": "Product A", "revenue": 28000 },
+      { "label": "Product B", "revenue": 21000 },
+      { "label": "Product C", "revenue": 16000 }
+    ],
+  
+    "sales_credits": {
+      "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+      "values": [120, 135, 130, 165, 158, 180]
+    },
+  
+    "portfolio_items": [
+      {
+        "item_key": "medicine_a",
+        "display_name": "Medicine A",
+        "category": "Pharmaceutical",
+        "rating": "A+",
+        "supplier_name": "Mankind Pharma",
+        "full_info": {
+          "strength": "500mg",
+          "form": "Tablet",
+          "pack_size": "10 tablets"
+        },
+        "sourcing": {
+          "annual_packs": 3000
+        },
+        "costing": {
+          "current_cost_per_dose_rupees": 1.4
+        },
+        "carbon": {
+          "co2e_per_dose_kg": 0.037
+        },
+        "marketing_detail": {
+          "short_description": "A sample medicine with low emissions and strong clinical efficacy.",
+          "hero_text": "Sales Prep Page - Marketing Module for Medicine A",
+          "prep_modules": [
+            {
+              "step": 1,
+              "title": "Understand key features",
+              "subtitle": "Low emissions, high quality."
+            },
+            {
+              "step": 2,
+              "title": "Practice pitch",
+              "subtitle": "Emphasize sustainability."
+            },
+            {
+              "step": 3,
+              "title": "Customize for hospital needs",
+              "subtitle": "Tailor your approach to each facility."
+            }
+          ],
+          "market_comparison": {
+            "emissions": {
+              "advantage_percent": 20,
+              "market_value": "50kg CO\u2082/unit",
+              "our_value": "40kg CO\u2082/unit",
+              "text": "20% lower than market average."
+            },
+            "price": {
+              "our_price": "$100",
+              "market_price": "$120",
+              "advantage_percent": 17,
+              "text": "17% cheaper vs market."
+            },
+            "quality": {
+              "our_quality": "95% efficacy rating",
+              "market_quality": "85% market average",
+              "text": "Higher efficacy than market."
+            }
+          },
+          "best_form": {
+            "price_per_unit": "$100",
+            "quality_label": "95% efficacy"
+          },
+          "advantages": [
+            {
+              "icon": "leaf",
+              "title": "Emissions",
+              "description": "Reduces carbon footprint by 20% compared to market (Ours: 40kg CO\u2082/unit vs Market: 50kg).",
+              "tone": "green"
+            },
+            {
+              "icon": "dollar",
+              "title": "Cost Savings",
+              "description": "15% cheaper than market average.",
+              "tone": "blue"
+            },
+            {
+              "icon": "check",
+              "title": "Better Compliance",
+              "description": "Meets green hospital standards.",
+              "tone": "neutral"
+            }
+          ]
+        }
+      },
+      {
+        "item_key": "device_b",
+        "display_name": "Device B",
+        "category": "Medical Device",
+        "rating": "A",
+        "supplier_name": "Siemens Healthineers",
+        "full_info": {
+          "strength": "N/A",
+          "form": "Diagnostic Device",
+          "pack_size": "Single unit"
+        },
+        "sourcing": {
+          "annual_packs": 120
+        },
+        "costing": {
+          "current_cost_per_dose_rupees": 95000
+        },
+        "carbon": {
+          "co2e_per_dose_kg": 5.2
+        },
+        "marketing_detail": {
+          "short_description": "High-precision imaging device with optimized power usage.",
+          "hero_text": "Sales Prep Page - Marketing Module for Device B",
+          "prep_modules": [
+            {
+              "step": 1,
+              "title": "Show diagnostic value",
+              "subtitle": "Focus on accuracy and uptime."
+            },
+            {
+              "step": 2,
+              "title": "Align with hospital budgets",
+              "subtitle": "Highlight lifetime value, not sticker price."
+            },
+            {
+              "step": 3,
+              "title": "Position as green upgrade",
+              "subtitle": "Lower energy use vs legacy devices."
+            }
+          ],
+          "market_comparison": {
+            "emissions": {
+              "advantage_percent": 18,
+              "market_value": "6.3kg CO\u2082/scan",
+              "our_value": "5.2kg CO\u2082/scan",
+              "text": "Reduced energy footprint vs older scanners."
+            },
+            "price": {
+              "our_price": "$95k",
+              "market_price": "$110k",
+              "advantage_percent": 14,
+              "text": "Lower total cost of ownership."
+            },
+            "quality": {
+              "our_quality": "High resolution imaging",
+              "market_quality": "Standard resolution",
+              "text": "Sharper imaging at lower dose."
+            }
+          },
+          "best_form": {
+            "price_per_unit": "$95k",
+            "quality_label": "Premium imaging quality"
+          },
+          "advantages": [
+            {
+              "icon": "leaf",
+              "title": "Lower Energy Use",
+              "description": "Optimized power profile vs legacy systems.",
+              "tone": "green"
+            },
+            {
+              "icon": "dollar",
+              "title": "Better ROI",
+              "description": "Higher throughput, faster time-to-diagnosis.",
+              "tone": "blue"
+            },
+            {
+              "icon": "check",
+              "title": "Future Ready",
+              "description": "Supports AI workflows and analytics.",
+              "tone": "neutral"
+            }
+          ]
+        }
+      },
+      {
+        "item_key": "medicine_c",
+        "display_name": "Medicine C",
+        "category": "Pharmaceutical",
+        "rating": "B+",
+        "supplier_name": "Sun Pharma",
+        "full_info": {
+          "strength": "250mg",
+          "form": "Capsule",
+          "pack_size": "15 capsules"
+        },
+        "sourcing": {
+          "annual_packs": 2200
+        },
+        "costing": {
+          "current_cost_per_dose_rupees": 2.1
+        },
+        "carbon": {
+          "co2e_per_dose_kg": 0.052
+        },
+        "marketing_detail": {
+          "short_description": "Balanced choice for hospitals seeking affordability and greener operations.",
+          "hero_text": "Sales Prep Page - Marketing Module for Medicine C",
+          "prep_modules": [
+            {
+              "step": 1,
+              "title": "Position as smart default",
+              "subtitle": "Reliable efficacy with lower footprint."
+            },
+            {
+              "step": 2,
+              "title": "Frame affordability",
+              "subtitle": "Budget friendly without compromising outcomes."
+            },
+            {
+              "step": 3,
+              "title": "Use in formularies",
+              "subtitle": "Highlight portfolio-level savings."
+            }
+          ],
+          "market_comparison": {
+            "emissions": {
+              "advantage_percent": 15,
+              "market_value": "0.06kg CO\u2082/dose",
+              "our_value": "0.052kg CO\u2082/dose",
+              "text": "Lower footprint than many generics."
+            },
+            "price": {
+              "our_price": "$85",
+              "market_price": "$100",
+              "advantage_percent": 15,
+              "text": "Competitive pricing vs peers."
+            },
+            "quality": {
+              "our_quality": "Stable outcomes",
+              "market_quality": "Variable outcomes",
+              "text": "Consistent performance in real-world use."
+            }
+          },
+          "best_form": {
+            "price_per_unit": "$85",
+            "quality_label": "Reliable efficacy"
+          },
+          "advantages": [
+            {
+              "icon": "leaf",
+              "title": "Greener Baseline",
+              "description": "Lower emissions than standard alternatives.",
+              "tone": "green"
+            },
+            {
+              "icon": "dollar",
+              "title": "Budget Friendly",
+              "description": "Helps keep pharmacy budgets predictable.",
+              "tone": "blue"
+            },
+            {
+              "icon": "check",
+              "title": "Formulary Fit",
+              "description": "Easy to adopt across departments.",
+              "tone": "neutral"
+            }
+          ]
+        }
+      },
+      {
+        "item_key": "device_d",
+        "display_name": "Device D",
+        "category": "Diagnostic Tool",
+        "rating": "A",
+        "supplier_name": "GE Healthcare",
+        "full_info": {
+          "strength": "N/A",
+          "form": "Imaging Device",
+          "pack_size": "Single unit"
+        },
+        "sourcing": {
+          "annual_packs": 60
+        },
+        "costing": {
+          "current_cost_per_dose_rupees": 150000
+        },
+        "carbon": {
+          "co2e_per_dose_kg": 7.1
+        },
+        "marketing_detail": {
+          "short_description": "Advanced diagnostic tool optimized for throughput and sustainability.",
+          "hero_text": "Sales Prep Page - Marketing Module for Device D",
+          "prep_modules": [
+            {
+              "step": 1,
+              "title": "Lead with throughput",
+              "subtitle": "More scans per day with less energy."
+            },
+            {
+              "step": 2,
+              "title": "Quantify savings",
+              "subtitle": "Operating cost and emission reductions."
+            },
+            {
+              "step": 3,
+              "title": "Match use cases",
+              "subtitle": "Tailor to ED, OPD, and specialty clinics."
+            }
+          ],
+          "market_comparison": {
+            "emissions": {
+              "advantage_percent": 22,
+              "market_value": "9.1kg CO\u2082/scan",
+              "our_value": "7.1kg CO\u2082/scan",
+              "text": "Lower emissions per diagnostic cycle."
+            },
+            "price": {
+              "our_price": "$150k",
+              "market_price": "$170k",
+              "advantage_percent": 12,
+              "text": "Lower lifetime ownership cost."
+            },
+            "quality": {
+              "our_quality": "High diagnostic confidence",
+              "market_quality": "Standard clarity",
+              "text": "Improved clarity for complex cases."
+            }
+          },
+          "best_form": {
+            "price_per_unit": "$150k",
+            "quality_label": "High diagnostic confidence"
+          },
+          "advantages": [
+            {
+              "icon": "leaf",
+              "title": "Lower Emissions / Scan",
+              "description": "Energy efficient design for hospitals.",
+              "tone": "green"
+            },
+            {
+              "icon": "dollar",
+              "title": "Operational Savings",
+              "description": "Reduced power and maintenance overhead.",
+              "tone": "blue"
+            },
+            {
+              "icon": "check",
+              "title": "Workflow Ready",
+              "description": "Drop-in replacement with minimal downtime.",
+              "tone": "neutral"
+            }
+          ]
+        }
+      },
+      {
+        "item_key": "medicine_e",
+        "display_name": "Medicine E",
+        "category": "Injectable",
+        "rating": "A+",
+        "supplier_name": "Cipla",
+        "full_info": {
+          "strength": "1g",
+          "form": "Injection",
+          "pack_size": "Vial"
+        },
+        "sourcing": {
+          "annual_packs": 1800
+        },
+        "costing": {
+          "current_cost_per_dose_rupees": 3.4
+        },
+        "carbon": {
+          "co2e_per_dose_kg": 0.061
+        },
+        "marketing_detail": {
+          "short_description": "High-efficacy injectable with strong sustainability profile.",
+          "hero_text": "Sales Prep Page - Marketing Module for Medicine E",
+          "prep_modules": [
+            {
+              "step": 1,
+              "title": "Emphasize clinical strength",
+              "subtitle": "High efficacy for critical care settings."
+            },
+            {
+              "step": 2,
+              "title": "Connect to green goals",
+              "subtitle": "Supports hospital net-zero commitments."
+            },
+            {
+              "step": 3,
+              "title": "Showcase real-world use",
+              "subtitle": "Share case studies and outcomes."
+            }
+          ],
+          "market_comparison": {
+            "emissions": {
+              "advantage_percent": 18,
+              "market_value": "0.075kg CO\u2082/dose",
+              "our_value": "0.061kg CO\u2082/dose",
+              "text": "Reduced emissions per dose vs typical injectables."
+            },
+            "price": {
+              "our_price": "$120",
+              "market_price": "$135",
+              "advantage_percent": 11,
+              "text": "More value with lower environmental cost."
+            },
+            "quality": {
+              "our_quality": "High response rates",
+              "market_quality": "Standard response rates",
+              "text": "Better performance in high-risk patients."
+            }
+          },
+          "best_form": {
+            "price_per_unit": "$120",
+            "quality_label": "High response rates"
+          },
+          "advantages": [
+            {
+              "icon": "leaf",
+              "title": "Lower Emissions per Dose",
+              "description": "Supports greener critical care.",
+              "tone": "green"
+            },
+            {
+              "icon": "dollar",
+              "title": "Cost & Outcome Balance",
+              "description": "Aligns clinical and financial goals.",
+              "tone": "blue"
+            },
+            {
+              "icon": "check",
+              "title": "Trusted Quality",
+              "description": "Backed by strong manufacturing standards.",
+              "tone": "neutral"
+            }
+          ]
+        }
+      }
+    ]
+  }
+  

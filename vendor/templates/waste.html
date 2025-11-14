@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MediCarbon – Waste Disposal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --accent: #22c55e;
+      --accent-red: #ef4444;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --sidebar-bg: #ffffff;
+      --sidebar-border: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .app-shell { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 220px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      padding: 16px 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .brand-name { font-weight: 700; }
+
+    .nav-list { list-style: none; padding: 0; margin: 0; }
+    .nav-item { margin-bottom: 4px; }
+    .nav-link {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .nav-link.active {
+      background: #ecfdf5;
+      color: #059669;
+      font-weight: 600;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .page-header { display: flex; flex-direction: column; gap: 4px; }
+    .page-title { font-size: 22px; font-weight: 700; }
+    .page-subtitle { font-size: 13px; color: var(--text-muted); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .col-3 { grid-column: span 3; }
+    .col-6 { grid-column: span 6; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 16px 18px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value { font-size: 24px; font-weight: 700; }
+    .kpi-unit { font-size: 14px; color: var(--text-muted); margin-left: 4px; }
+    .kpi-trend { font-size: 12px; margin-top: 4px; }
+    .trend-up { color: var(--accent-red); }
+    .trend-down { color: var(--accent); }
+
+    .chart-box {
+      width: 100%;
+      height: 220px;
+      padding: 10px;
+    }
+    .chart-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .category-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .category-bar-wrapper {
+      flex: 1;
+      margin: 0 10px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 8px;
+    }
+    .category-bar {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar { display: none; }
+      .main { padding: 12px; }
+      .col-3, .col-6 { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body data-active-page="waste">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">M</div>
+      <div class="brand-name">MediCarbon</div>
+    </div>
+    <ul class="nav-list" id="nav-list"></ul>
+  </aside>
+
+  <main class="main">
+    <header class="page-header">
+      <div class="page-title">Waste Disposal</div>
+      <div class="page-subtitle">Monitor waste generation and disposal efficiency</div>
+    </header>
+
+    <!-- KPI cards -->
+    <section class="grid">
+      <div class="card col-3">
+        <div class="card-subtitle" id="w-total-title"></div>
+        <div class="kpi-value">
+          <span id="w-total-value"></span><span class="kpi-unit" id="w-total-unit"></span>
+        </div>
+        <div class="kpi-trend" id="w-total-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-subtitle" id="w-rec-title"></div>
+        <div class="kpi-value">
+          <span id="w-rec-value"></span><span class="kpi-unit" id="w-rec-unit"></span>
+        </div>
+        <div class="kpi-trend" id="w-rec-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-subtitle" id="w-haz-title"></div>
+        <div class="kpi-value">
+          <span id="w-haz-value"></span><span class="kpi-unit" id="w-haz-unit"></span>
+        </div>
+        <div class="kpi-trend" id="w-haz-trend"></div>
+      </div>
+
+      <div class="card col-3">
+        <div class="card-subtitle" id="w-bio-title"></div>
+        <div class="kpi-value">
+          <span id="w-bio-value"></span><span class="kpi-unit" id="w-bio-unit"></span>
+        </div>
+        <div class="kpi-trend" id="w-bio-trend"></div>
+      </div>
+    </section>
+
+    <!-- Pie + category breakdown -->
+    <section class="grid">
+      <div class="card col-6">
+        <div class="card-title">Waste Distribution</div>
+        <div class="chart-box">
+          <canvas id="wastePie"></canvas>
+        </div>
+      </div>
+
+      <div class="card col-6">
+        <div class="card-title">Category Breakdown</div>
+        <div id="categoryBreakdown"></div>
+      </div>
+    </section>
+
+    <!-- Monthly trend -->
+    <section class="card">
+      <div class="card-title">Monthly Waste Trend</div>
+      <div class="chart-box">
+        <canvas id="wasteTrend"></canvas>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  function buildNav(items) {
+    const list = document.getElementById("nav-list");
+    const active = document.body.getAttribute("data-active-page");
+    items.forEach(it => {
+      const li = document.createElement("li");
+      li.className = "nav-item";
+      const a = document.createElement("a");
+      a.className = "nav-link" + (it.id === active ? " active" : "");
+      a.href = it.href || "#";
+      a.textContent = it.label;
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }
+
+  function renderTrend(el, t) {
+    if (!t) return;
+    const dirClass = t.direction === "down" ? "trend-down" : "trend-up";
+    const arrow = t.direction === "down" ? "▼ " : "▲ ";
+    el.classList.add(dirClass);
+    el.textContent = arrow + t.text;
+  }
+
+  function pieChart(ctx, labels, values, colors) {
+    return new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels,
+        datasets: [{ data: values, backgroundColor: colors }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: { legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } } }
+      }
+    });
+  }
+
+  function barChartStacked(ctx, labels, series) {
+    return new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels,
+        datasets: series.map(s => ({
+          label: s.label,
+          data: s.values,
+          backgroundColor: s.color
+        }))
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 11 } } } },
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, beginAtZero: true, grid: { color: "#e5e7eb" } }
+        }
+      }
+    });
+  }
+
+  fetch("../vendor.json")
+    .then(r => r.json())
+    .then(data => {
+      buildNav(data.navigation);
+
+      const w = data.waste_overview;
+      document.getElementById("w-total-title").textContent = w.total.title;
+      document.getElementById("w-total-value").textContent = w.total.value;
+      document.getElementById("w-total-unit").textContent = w.total.unit;
+      renderTrend(document.getElementById("w-total-trend"), w.total.trend);
+
+      document.getElementById("w-rec-title").textContent = w.recyclable.title;
+      document.getElementById("w-rec-value").textContent = w.recyclable.value;
+      document.getElementById("w-rec-unit").textContent = w.recyclable.unit;
+      renderTrend(document.getElementById("w-rec-trend"), w.recyclable.trend);
+
+      document.getElementById("w-haz-title").textContent = w.hazardous.title;
+      document.getElementById("w-haz-value").textContent = w.hazardous.value;
+      document.getElementById("w-haz-unit").textContent = w.hazardous.unit;
+      renderTrend(document.getElementById("w-haz-trend"), w.hazardous.trend);
+
+      document.getElementById("w-bio-title").textContent = w.biodegradable.title;
+      document.getElementById("w-bio-value").textContent = w.biodegradable.value;
+      document.getElementById("w-bio-unit").textContent = w.biodegradable.unit;
+      renderTrend(document.getElementById("w-bio-trend"), w.biodegradable.trend);
+
+      // pie
+      const wd = data.waste_distribution;
+      pieChart(
+        document.getElementById("wastePie"),
+        wd.map(x => x.label),
+        wd.map(x => x.percent),
+        wd.map(x => x.color)
+      );
+
+      // category bars
+      const catDiv = document.getElementById("categoryBreakdown");
+      wd.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "category-row";
+        const label = document.createElement("span");
+        label.textContent = item.label;
+        const barWrap = document.createElement("div");
+        barWrap.className = "category-bar-wrapper";
+        const bar = document.createElement("div");
+        bar.className = "category-bar";
+        bar.style.width = item.percent + "%";
+        bar.style.background = item.color;
+        barWrap.appendChild(bar);
+        const perc = document.createElement("span");
+        perc.textContent = item.percent + "%";
+        row.appendChild(label);
+        row.appendChild(barWrap);
+        row.appendChild(perc);
+        catDiv.appendChild(row);
+      });
+
+      // monthly trend
+      barChartStacked(
+        document.getElementById("wasteTrend"),
+        data.waste_trend.months,
+        data.waste_trend.series
+      );
+    });
+</script>
+</body>
+</html>
