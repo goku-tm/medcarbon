@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Your Emission Dashboard – NuvoCarbon</title>
+
+<style>
+  :root {
+    --card-bg:#ffffff;
+    --muted:#6b7280;
+    --accent:#16a34a;
+    --border-soft:#e5e7eb;
+  }
+
+  * { box-sizing:border-box; }
+
+  body {
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+    background:#ffffff;
+    color:#111827;
+    min-height:100vh;
+  }
+
+  .wrap {
+    max-width:1120px;
+    margin:0 auto;
+    padding:16px 16px 40px;
+  }
+
+  /* top nav */
+  .nav {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 0 16px;
+  }
+
+  .nav-left {
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .leaf-icon {
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:#16a34a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:14px;
+  }
+
+  .brand {
+    font-weight:700;
+    font-size:1.05rem;
+  }
+
+  .nav-right {
+    display:flex;
+    gap:16px;
+    font-size:0.9rem;
+  }
+
+  .nav-link {
+    color:#374151;
+    text-decoration:none;
+  }
+  .nav-link:hover { text-decoration:underline; }
+
+  .logout-link { color:#b91c1c; }
+
+  h1 {
+    margin:12px 0 4px;
+    font-size:1.8rem;
+  }
+
+  .subtext {
+    margin:0 0 20px;
+    font-size:0.9rem;
+    color:var(--muted);
+  }
+
+  /* summary cards */
+  .cards-row {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:14px;
+    margin-bottom:24px;
+  }
+
+  .metric-card {
+    background:var(--card-bg);
+    border-radius:14px;
+    border:1px solid var(--border-soft);
+    padding:16px;
+  }
+
+  .metric-label {
+    font-size:0.78rem;
+    color:var(--muted);
+    margin-bottom:6px;
+  }
+
+  .metric-value {
+    font-size:1.4rem;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+
+  .metric-caption {
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+
+  /* tabs */
+  .tabs { margin-top:8px; }
+
+  .tab-buttons {
+    display:inline-flex;
+    border-radius:999px;
+    border:1px solid #d1d5db;
+    padding:2px;
+    background:#f9fafb;
+    margin-bottom:12px;
+  }
+
+  .tab-btn {
+    border:none;
+    background:transparent;
+    padding:8px 18px;
+    border-radius:999px;
+    font-size:0.85rem;
+    cursor:pointer;
+    color:#4b5563;
+  }
+
+  .tab-btn.active {
+    background:#ffffff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.08);
+    color:#111827;
+  }
+
+  /* panels */
+  .panel {
+    background:#ffffff;
+    border-radius:14px;
+    border:1px solid var(--border-soft);
+    padding:18px 18px 20px;
+  }
+
+  .panel-title {
+    font-size:0.98rem;
+    font-weight:600;
+  }
+
+  .panel-subtitle {
+    font-size:0.82rem;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+
+  /* manual form */
+  .form-grid {
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr;
+    gap:12px;
+    margin-bottom:12px;
+  }
+
+  .field-group label {
+    display:block;
+    font-size:0.78rem;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+
+  .form-grid input,
+  .form-grid select {
+    width:100%;
+    padding:8px 10px;
+    border-radius:10px;
+    border:1px solid #d1d5db;
+    font-size:0.9rem;
+  }
+
+  .submit-row {
+    display:flex;
+    justify-content:flex-end;
+    margin-top:12px;
+  }
+
+  .primary-btn {
+    border-radius:999px;
+    border:none;
+    padding:8px 20px;
+    background:var(--accent);
+    color:white;
+    font-size:0.85rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+
+  .primary-btn:hover { background:#15803d; }
+
+  /* auto connections */
+  .connections-grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+
+  .connection-card {
+    border-radius:14px;
+    border:1px solid var(--border-soft);
+    background:#ffffff;
+    padding:16px 18px 18px;
+  }
+
+  .connection-title {
+    font-size:0.95rem;
+    font-weight:600;
+  }
+
+  .connection-sub {
+    font-size:0.82rem;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+
+  .connect-btn {
+    width:100%;
+    border-radius:999px;
+    border:1px solid #d1d5db;
+    background:white;
+    padding:8px 12px;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+
+  .connect-btn:hover { background:#f3f4f6; }
+
+  @media (max-width:900px){
+    .cards-row{grid-template-columns:1fr;}
+    .connections-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .form-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- top nav -->
+  <header class="nav">
+    <div class="nav-left">
+      <div class="leaf-icon">🌿</div>
+      <span class="brand">NuvoCarbon</span>
+    </div>
+    <div class="nav-right">
+      <a class="nav-link" href="{{ url_for('marketplace') }}">Marketplace</a>
+      <a class="nav-link logout-link" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </header>
+
+  <!-- title -->
+  <section>
+    <h1>Your Emission Dashboard</h1>
+    <p class="subtext">All values below are calculated from your actual emission entries.</p>
+  </section>
+
+  <!-- summary cards (all data from totals.*) -->
+  <section class="cards-row">
+    <div class="metric-card">
+      <div class="metric-label">Total CO₂</div>
+      <div class="metric-value">{{ "%.2f"|format(totals.co2) }} {{ totals_unit if totals_unit is defined else "kg" }}</div>
+      <div class="metric-caption">Sum of all CO₂ entries.</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">NO₂ Emissions</div>
+      <div class="metric-value">{{ "%.2f"|format(totals.no2) }} {{ totals_unit if totals_unit is defined else "kg" }}</div>
+      <div class="metric-caption">Sum of all NO₂ entries.</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Methane (CH₄)</div>
+      <div class="metric-value">{{ "%.2f"|format(totals.ch4) }} {{ totals_unit if totals_unit is defined else "kg" }}</div>
+      <div class="metric-caption">Sum of all CH₄ entries.</div>
+    </div>
+  </section>
+
+  <!-- tabs -->
+  <section class="tabs">
+    <div class="tab-buttons">
+      <button id="tab-manual" class="tab-btn active" onclick="switchTab('manual')">Manual Entry</button>
+      <button id="tab-auto" class="tab-btn" onclick="switchTab('auto')">Automated Connections</button>
+    </div>
+
+    <!-- manual entry panel -->
+    <div id="panel-manual" class="panel">
+      <div class="panel-title">Add Emission Data</div>
+      <div class="panel-subtitle">Manually log your greenhouse gas emissions.</div>
+
+      <form method="POST" action="{{ url_for('add_emission_route') }}">
+        <div class="form-grid">
+          <div class="field-group">
+            <label>Emission Type</label>
+            <select name="emission_type" required>
+              <option value="">Select type</option>
+              <option value="co2">Carbon Dioxide (CO₂)</option>
+              <option value="no2">Nitrogen Dioxide (NO₂)</option>
+              <option value="ch4">Methane (CH₄)</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>Amount</label>
+            <input type="number" name="amount" step="0.0001" min="0" required>
+          </div>
+
+          <div class="field-group">
+            <label>Unit</label>
+            <select name="unit" required>
+              <option value="kg">kg</option>
+              <option value="tonnes">tonnes</option>
+              <option value="g">g</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="primary-btn">Save Emission</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- automated connections panel -->
+    <div id="panel-auto" class="panel" style="display:none;">
+      <div class="panel-title">Automated Connections</div>
+      <div class="panel-subtitle">Configure hassle-free data ingestion from your existing systems.</div>
+
+      <div class="connections-grid">
+        <div class="connection-card">
+          <div class="connection-title">📈 Connect CRM</div>
+          <div class="connection-sub">Automatically pull activity data from your CRM system.</div>
+          <button class="connect-btn" type="button">Connect to CRM</button>
+        </div>
+
+        <div class="connection-card">
+          <div class="connection-title">⚡ Electricity Board</div>
+          <div class="connection-sub">Connect to your state electricity board for auto-tracking.</div>
+          <button class="connect-btn" type="button">Connect Board</button>
+        </div>
+
+        <div class="connection-card">
+          <div class="connection-title">💧 Water Board</div>
+          <div class="connection-sub">Link your water consumption data for comprehensive tracking.</div>
+          <button class="connect-btn" type="button">Connect Board</button>
+        </div>
+
+        <div class="connection-card">
+          <div class="connection-title">🧩 Other Systems</div>
+          <div class="connection-sub">RIS/PACS, inventory, procurement integrations coming soon.</div>
+          <button class="connect-btn" type="button">Join Early Access</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  function switchTab(which) {
+    const manualBtn = document.getElementById('tab-manual');
+    const autoBtn = document.getElementById('tab-auto');
+    const manualPanel = document.getElementById('panel-manual');
+    const autoPanel = document.getElementById('panel-auto');
+
+    if (which === 'manual') {
+      manualBtn.classList.add('active');
+      autoBtn.classList.remove('active');
+      manualPanel.style.display = 'block';
+      autoPanel.style.display = 'none';
+    } else {
+      autoBtn.classList.add('active');
+      manualBtn.classList.remove('active');
+      manualPanel.style.display = 'none';
+      autoPanel.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "gokul@gmail.com",
+      "password_hash": "scrypt:32768:8:1$peme20fQ8hDqoHhX$ce705b636f544b3d730ce6927671cd78bb0199d0b506729354bdb4673308ab713f191ad9b859bc3051f54be6e94b0c9b7aaa87786a260acae955aae35c0f2452",
+      "name": "Gokul Industries",
+      "user_type": "manufacturer",
+      "created_at": "2025-11-14T10:02:50.544761"
+    },
+    {
+      "id": 2,
+      "email": "mitesh@gmail.com",
+      "password_hash": "scrypt:32768:8:1$qGbmCMYGYQQSa8Aj$fedec78b2034edbec547f04e30dba79e6327875078b469c36c71b0a5cf4eec0d5656c1d1fb5c95877a83254977173788a5594fdc71d6c1e66e26c0527e3da15f",
+      "name": "Mitesh Hospital",
+      "user_type": "hospital",
+      "created_at": "2025-11-14T10:48:50.398107"
+    }
+  ]
+}

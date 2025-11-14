@@ -1,0 +1,234 @@
+{
+    "mvp_version": "1.0",
+    "hospital_profile": {
+      "name": "Apollo City Hospital",
+      "beds": 500,
+      "annual_or_cases": 5000,
+      "annual_opd_visits": 200000
+    },
+    "levers": {
+      "pharma_oral_medications": {
+        "class_name": "Oral Medications",
+        "data_sources": ["HIMS Pharmacy Module", "ERP Procurement"],
+        "sub_levers": {
+          "analgesics": {
+            "class_name": "Analgesics",
+            "items": {
+              "paracetamol_500mg": {
+                "full_info": {
+                  "strength": "500mg",
+                  "form": "Tablet",
+                  "pack_size": "10 tablets"
+                },
+                "sourcing": {
+                  "suppliers": ["Cipla", "Sun Pharma"],
+                  "annual_packs": 8000
+                },
+                "use_case": {
+                  "indication": "Pain & fever relief",
+                  "annual_doses": 80000,
+                  "guideline": "WHO Essential Medicines List"
+                },
+                "carbon": {
+                  "co2e_per_dose_kg": 0.038,
+                  "annual_co2e_tonnes": 3.04,
+                  "blister_waste_percentage": 12,
+                  "blister_co2e_per_strip_kg": 0.0045
+                },
+                "costing": {
+                  "current_drug": "Paracetamol",
+                  "current_cost_per_dose_rupees": 1.5,
+                  "annual_cost_rupees": 120000,
+                  "alternative_drug": "Oral Ibuprofen 400mg",
+                  "alternative_cost_per_dose_rupees": 2.8,
+                  "annual_alternative_cost_rupees": 224000,
+                  "cost_difference_rupees": -104000
+                },
+                "safety": "Equivalent efficacy; lower GI risk with paracetamol (BMJ 2025)",
+                "source": "Journal of Cleaner Production (2025); Pharmaceutical Journal (2025)"
+              },
+              "ibuprofen_400mg": {
+                "full_info": {
+                  "strength": "400mg",
+                  "form": "Tablet",
+                  "pack_size": "15 tablets"
+                },
+                "sourcing": {
+                  "suppliers": ["Abbott", "Dr. Reddy's"],
+                  "annual_packs": 4000
+                },
+                "use_case": {
+                  "indication": "Inflammatory pain, arthritis",
+                  "annual_doses": 60000,
+                  "guideline": "NICE: Use with caution in CKD"
+                },
+                "carbon": {
+                  "co2e_per_dose_kg": 0.045,
+                  "annual_co2e_tonnes": 2.7,
+                  "blister_waste_percentage": 12,
+                  "blister_co2e_per_strip_kg": 0.0054
+                },
+                "costing": {
+                  "current_drug": "Ibuprofen",
+                  "current_cost_per_dose_rupees": 2.8,
+                  "annual_cost_rupees": 168000,
+                  "alternative_drug": "Paracetamol 500mg",
+                  "alternative_cost_per_dose_rupees": 1.5,
+                  "annual_alternative_cost_rupees": 90000,
+                  "cost_difference_rupees": 78000
+                },
+                "safety": "Paracetamol safer in renal impairment (Lancet 2025)",
+                "source": "BMJ (2025); Carbonfact Report (2024)"
+              }
+            }
+          }
+        }
+      },
+      "anesthetic_agents": {
+        "class_name": "Anesthetic Gases & IV",
+        "data_sources": ["HIMS Anesthesia Module", "ERP Pharmacy"],
+        "sub_levers": {
+          "volatile_gases": {
+            "class_name": "Volatile Anesthetics",
+            "items": {
+              "desflurane": {
+                "full_info": {
+                  "bottle_size": "240 mL",
+                  "gwp": 2540
+                },
+                "sourcing": {
+                  "suppliers": ["Baxter"],
+                  "annual_units": 400
+                },
+                "use_case": {
+                  "indication": "Fast emergence (bariatric)",
+                  "annual_cases": 400,
+                  "guideline": "RCoA: Avoid routine"
+                },
+                "carbon": {
+                  "co2e_per_kg_kg": 2530,
+                  "annual_co2e_tonnes": 354.4,
+                  "emission_breakdown_percentage": {"use_phase": 90, "production": 5, "transport": 5}
+                },
+                "costing": {
+                  "current_drug": "Desflurane",
+                  "current_cost_per_unit_rupees": 7000,
+                  "annual_cost_rupees": 2800000,
+                  "alternative_drug": "Sevoflurane",
+                  "alternative_cost_per_unit_rupees": 4000,
+                  "annual_alternative_cost_rupees": 1600000,
+                  "cost_difference_rupees": 1200000
+                },
+                "safety": "Sevoflurane equivalent outcomes (NHS 2025)",
+                "source": "BJA (2025); ASA Environmental Report (2025)"
+              },
+              "sevoflurane": {
+                "full_info": {
+                  "bottle_size": "250 mL",
+                  "gwp": 130
+                },
+                "sourcing": {
+                  "suppliers": ["AbbVie"],
+                  "annual_units": 1800
+                },
+                "use_case": {
+                  "indication": "Routine GA, low-flow",
+                  "annual_cases": 4500,
+                  "guideline": "WFSA: Preferred volatile"
+                },
+                "carbon": {
+                  "co2e_per_kg_kg": 109,
+                  "annual_co2e_tonnes": 88.2,
+                  "emission_breakdown_percentage": {"use_phase": 90, "production": 5, "transport": 5}
+                },
+                "costing": {
+                  "current_drug": "Sevoflurane",
+                  "current_cost_per_unit_rupees": 4000,
+                  "annual_cost_rupees": 7200000,
+                  "alternative_drug": "Desflurane",
+                  "alternative_cost_per_unit_rupees": 7000,
+                  "annual_alternative_cost_rupees": 12600000,
+                  "cost_difference_rupees": -5400000
+                },
+                "safety": "No emergence delay vs. desflurane (ANZCA 2025)",
+                "source": "BJA (2025); Lancet Planetary Health (2025)"
+              }
+            }
+          }
+        }
+      },
+      "consumables": {
+        "class_name": "Single-Use Consumables",
+        "data_sources": ["HIMS Inventory", "ERP Supplies"],
+        "sub_levers": {
+          "sterile_supplies": {
+            "class_name": "Sterile Supplies",
+            "items": {
+              "surgical_cotton": {
+                "full_info": {
+                  "type": "Gauze/Pads",
+                  "weight_per_unit": "500g pack"
+                },
+                "sourcing": {
+                  "suppliers": ["Johnson & Johnson"],
+                  "annual_units": 2000
+                },
+                "use_case": {
+                  "indication": "Wound dressing, OR packing",
+                  "annual_cases": 10000,
+                  "guideline": "WHO: Reusable where possible"
+                },
+                "carbon": {
+                  "co2e_per_kg_kg": 2.5,
+                  "annual_co2e_tonnes": 2.5,
+                  "emission_breakdown_percentage": {"farming": 60, "processing": 30, "waste": 10}
+                },
+                "costing": {
+                  "current_drug": "Disposable Cotton",
+                  "current_cost_per_unit_rupees": 150,
+                  "annual_cost_rupees": 300000,
+                  "alternative_drug": "Reusable Cotton",
+                  "alternative_cost_per_unit_rupees": 50,
+                  "annual_alternative_cost_rupees": 100000,
+                  "cost_difference_rupees": 200000
+                },
+                "safety": "Equivalent sterility with laundering (AORN 2025)",
+                "source": "Carbonfact (2024); JOSPT (2025)"
+              },
+              "single_use_syringe": {
+                "full_info": {
+                  "type": "0.5 mL Syringe",
+                  "material": "PP/Plunger"
+                },
+                "sourcing": {
+                  "suppliers": ["BD"],
+                  "annual_units": 500000
+                },
+                "use_case": {
+                  "indication": "Injections, flushes",
+                  "annual_cases": 500000,
+                  "guideline": "CDC: Minimize single-use"
+                },
+                "carbon": {
+                  "co2e_per_unit_kg": 0.033,
+                  "annual_co2e_tonnes": 16.5,
+                  "emission_breakdown_percentage": {"materials": 45, "waste": 28, "transport": 12}
+                },
+                "costing": {
+                  "current_drug": "Single-Use Syringe",
+                  "current_cost_per_unit_rupees": 2,
+                  "annual_cost_rupees": 1000000,
+                  "alternative_drug": "Reusable Syringe",
+                  "alternative_cost_per_unit_rupees": 0.5,
+                  "annual_alternative_cost_rupees": 250000,
+                  "cost_difference_rupees": 750000
+                },
+                "safety": "No infection risk with proper sterilization (WHO 2025)",
+                "source": "medRxiv (2025); Annals of Intensive Care (2025)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }

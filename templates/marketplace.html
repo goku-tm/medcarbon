@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Sustainability Marketplace – NuvoCarbon</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --card-bg: #ffffff;
+    --muted: #6b7280;
+    --accent: #16a34a;
+    --accent-soft: #e7f9ee;
+    --border-soft: #e5e7eb;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+    background: var(--bg);
+    color: #111827;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 16px 16px 40px;
+  }
+
+  /* top nav */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0 12px;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .leaf-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+  }
+
+  .brand {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  .nav-right button {
+    border-radius: 999px;
+    border: none;
+    padding: 8px 16px;
+    background: #16a34a;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .nav-right button:hover {
+    background: #15803d;
+  }
+
+  /* back link */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #4b5563;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  /* heading */
+  h1 {
+    margin: 24px 0 4px;
+    text-align: center;
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    text-align: center;
+    margin: 0 0 24px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  /* tiers row */
+  .tiers-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .tier-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-soft);
+    padding: 16px 20px 18px;
+  }
+
+  .tier-card.gold   { background: #f4fbf5; border-color: #bbf7d0; }
+  .tier-card.silver { background: #f5f7ff; border-color: #cbd5f5; }
+  .tier-card.bronze { background: #fff7ed; border-color: #fed7aa; }
+
+  .tier-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tier-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .tier-desc {
+    font-size: 0.8rem;
+    color: #374151;
+  }
+
+  /* leaderboard container */
+  .leaderboard {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-soft);
+    padding: 18px 20px 20px;
+  }
+
+  .leaderboard-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .leaderboard-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  /* toggle buttons */
+  .toggle-row {
+    display: inline-flex;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    padding: 2px;
+    margin-bottom: 12px;
+  }
+
+  .toggle-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    color: #4b5563;
+  }
+
+  .toggle-btn.active {
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  /* entry rows */
+  .entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f9fafb;
+    margin-bottom: 8px;
+  }
+
+  .entry-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .rank-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .rank-1 .rank-circle { background: #fef3c7; color: #92400e; }
+  .rank-2 .rank-circle { background: #e5e7eb; color: #374151; }
+  .rank-3 .rank-circle { background: #fee2e2; color: #b91c1c; }
+
+  .entry-main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .entry-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .badge {
+    border-radius: 999px;
+    background: #e5f3ff;
+    color: #1d4ed8;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+  }
+
+  .badge.manufacturer {
+    background: #fef9c3;
+    color: #854d0e;
+  }
+
+  .entry-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .entry-meta span + span {
+    margin-left: 8px;
+  }
+
+  .entry-right {
+    text-align: right;
+    font-size: 0.78rem;
+  }
+
+  .subsidy-pill {
+    border-radius: 999px;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 4px 10px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: inline-block;
+  }
+
+  .entry-icon {
+    font-size: 0.9rem;
+  }
+
+  .empty-msg {
+    font-size: 0.82rem;
+    color: var(--muted);
+    padding: 4px 2px;
+  }
+
+  @media (max-width: 900px) {
+    .tiers-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- top nav -->
+  <header class="nav">
+    <div class="nav-left">
+      <div class="leaf-icon">🌿</div>
+      <span class="brand">NuvoCarbon</span>
+    </div>
+    <div class="nav-right">
+      <!-- Go to dashboard -->
+      <button onclick="window.location.href='{{ url_for('dashboard') }}'">
+        Go to Dashboard
+      </button>
+    </div>
+  </header>
+
+  <!-- back to home -->
+  <a class="back-link" href="{{ url_for('home') }}">
+    ← Back to Home
+  </a>
+
+  <!-- heading -->
+  <h1>Sustainability Marketplace</h1>
+  <p class="subtitle">Leading the change toward a net-zero medical ecosystem.</p>
+
+  <!-- tiers -->
+  <section class="tiers-row">
+    <div class="tier-card gold">
+      <div class="tier-name">🥇 Gold Tier</div>
+      <div class="tier-meta">Highest subsidy band</div>
+      <div class="tier-desc">
+        Organisations with the lowest verified emissions and the highest percentage reduction
+        in their category unlock the maximum discounts across the marketplace.
+      </div>
+    </div>
+
+    <div class="tier-card silver">
+      <div class="tier-name">🥈 Silver Tier</div>
+      <div class="tier-meta">Mid-level subsidy band</div>
+      <div class="tier-desc">
+        Strong improvers who consistently reduce their footprint year-on-year qualify for
+        meaningful savings on sustainable products.
+      </div>
+    </div>
+
+    <div class="tier-card bronze">
+      <div class="tier-name">🥉 Bronze Tier</div>
+      <div class="tier-meta">Entry subsidy band</div>
+      <div class="tier-desc">
+        Organisations at the start of their decarbonisation journey receive starter benefits
+        as they adopt low-carbon alternatives.
+      </div>
+    </div>
+  </section>
+
+  <!-- leaderboard -->
+    <!-- leaderboard -->
+    <section class="leaderboard">
+        <div class="leaderboard-title">Sustainability Leaderboard</div>
+        <div class="leaderboard-sub">
+          Rankings based on real emissions logged in NuvoCarbon.
+        </div>
+    
+        <!-- toggle buttons -->
+        <div class="toggle-row">
+          <button id="btn-hospitals" class="toggle-btn active" onclick="showBoard('hospitals')">
+            Hospitals
+          </button>
+          <button id="btn-manufacturers" class="toggle-btn" onclick="showBoard('manufacturers')">
+            Manufacturers
+          </button>
+        </div>
+    
+        <!-- Hospitals leaderboard -->
+        <div id="board-hospitals">
+          {% if leaders_hospitals and leaders_hospitals|length > 0 %}
+            {% for org in leaders_hospitals %}
+            <div class="entry rank-{{ loop.index }}">
+              <div class="entry-left">
+                <div class="rank-circle">{{ loop.index }}</div>
+                <div class="entry-main">
+                  <div class="entry-name-row">
+                    <span>{{ org.name }}</span>
+                    <span class="badge">hospital</span>
+                  </div>
+                  <div class="entry-meta">
+                    <span>Emissions: {{ "%.2f"|format(org.emissions_kg) }} kg CO₂e</span>
+                    <span>↓ {{ "%.1f"|format(org.reduction_pct) }}% reduction</span>
+                  </div>
+                </div>
+              </div>
+              <div class="entry-right">
+                <span class="subsidy-pill">{{ "%.1f"|format(org.subsidy_pct) }}% Subsidy</span><br />
+                <span class="entry-icon">{{ org.icon or "🏅" }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-msg">
+              No hospital data yet. Once hospitals start logging emissions, rankings will appear here.
+            </div>
+          {% endif %}
+        </div>
+    
+        <!-- Manufacturers leaderboard -->
+        <div id="board-manufacturers" style="display:none;">
+          {% if leaders_manufacturers and leaders_manufacturers|length > 0 %}
+            {% for org in leaders_manufacturers %}
+            <div class="entry rank-{{ loop.index }}">
+              <div class="entry-left">
+                <div class="rank-circle">{{ loop.index }}</div>
+                <div class="entry-main">
+                  <div class="entry-name-row">
+                    <span>{{ org.name }}</span>
+                    <span class="badge manufacturer">manufacturer</span>
+                  </div>
+                  <div class="entry-meta">
+                    <span>Emissions: {{ "%.2f"|format(org.emissions_kg) }} kg CO₂e</span>
+                    <span>↓ {{ "%.1f"|format(org.reduction_pct) }}% reduction</span>
+                  </div>
+                </div>
+              </div>
+              <div class="entry-right">
+                <span class="subsidy-pill">{{ "%.1f"|format(org.subsidy_pct) }}% Subsidy</span><br />
+                <span class="entry-icon">{{ org.icon or "🏅" }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-msg">
+              No manufacturer data yet. Once manufacturers start logging emissions, rankings will appear here.
+            </div>
+          {% endif %}
+        </div>
+    
+      </section>
+    
+</div>
+
+<script>
+  function showBoard(type) {
+    const hospitalsBtn = document.getElementById('btn-hospitals');
+    const manufacturersBtn = document.getElementById('btn-manufacturers');
+    const hospitalsBoard = document.getElementById('board-hospitals');
+    const manufacturersBoard = document.getElementById('board-manufacturers');
+
+    if (type === 'hospitals') {
+      hospitalsBtn.classList.add('active');
+      manufacturersBtn.classList.remove('active');
+      hospitalsBoard.style.display = 'block';
+      manufacturersBoard.style.display = 'none';
+    } else {
+      manufacturersBtn.classList.add('active');
+      hospitalsBtn.classList.remove('active');
+      hospitalsBoard.style.display = 'none';
+      manufacturersBoard.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>

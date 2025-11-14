@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Login / Signup – NuvoCarbon</title>
+<style>
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+    background: #05140d;
+    color: #f9f9f9;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: 16px;
+  }
+
+  .home-btn {
+    margin-bottom: 12px;
+    border-radius: 999px;
+    border: 1px solid #254633;
+    background: transparent;
+    color: #9fe8ba;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+
+  .home-btn:hover {
+    background: #10291a;
+  }
+
+  .card {
+    background: rgba(5, 30, 18, 0.96);
+    border-radius: 16px;
+    padding: 24px 24px 26px;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+  }
+
+  h2 { margin-top: 0; margin-bottom: 6px; }
+  p.hint { margin-top: 0; font-size: 0.82rem; opacity: 0.8; }
+
+  label {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 4px;
+    border-radius: 8px;
+    border: 1px solid #2e6a4b;
+    background: #06130d;
+    color: #f5f5f5;
+  }
+
+  button.primary {
+    margin-top: 14px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 999px;
+    border: none;
+    background: #36c172;
+    color: #02130a;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  button.primary:hover {
+    background: #54d68a;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+  }
+
+  .switch-text {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .switch-text a {
+    color: #7df5b0;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .switch-text a:hover {
+    text-decoration: underline;
+  }
+
+  hr.divider {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid #1f3b2b;
+    opacity: 0.7;
+  }
+
+  .flash-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 10px;
+    font-size: 0.8rem;
+  }
+
+  .flash {
+    padding: 6px 8px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+  }
+
+  .flash.success { background: rgba(39, 174, 96, 0.18); color: #a6f5c7; }
+  .flash.error   { background: rgba(192, 57, 43, 0.18); color: #ffb3b3; }
+  .flash.info    { background: rgba(52, 152, 219, 0.18); color: #b8e2ff; }
+
+  /* identity step */
+  .identity-title {
+    margin-bottom: 16px;
+  }
+
+  .identity-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .identity-card {
+    width: 100%;
+    border-radius: 14px;
+    padding: 14px 14px 16px;
+    border: 1px solid #2d5d40;
+    background: #071a10;
+    color: #e5ffe9;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .identity-card h3 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+  }
+
+  .identity-card p {
+    margin: 0;
+    font-size: 0.8rem;
+    opacity: 0.85;
+  }
+
+  .identity-card:hover {
+    background: #0a2316;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+  }
+
+  .top-text {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-bottom: 6px;
+  }
+
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <button class="home-btn" onclick="window.location.href='{{ url_for('home') }}'">
+    ← Homepage
+  </button>
+
+  <div class="card">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-list">
+          {% for category, message in messages %}
+            <li class="flash {{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% if mode == "identify" %}
+      <div class="top-text">
+        Step 2 · Help us understand who you are
+      </div>
+      <h2 class="identity-title">How would you identify yourself?</h2>
+      <div class="identity-grid">
+        <form method="POST" action="{{ url_for('set_identity') }}">
+          <input type="hidden" name="user_type" value="hospital" />
+          <button type="submit" class="identity-card">
+            <h3>Hospital</h3>
+            <p>Track emissions across wards, equipment, and utilities.</p>
+          </button>
+        </form>
+      
+        <form method="POST" action="{{ url_for('set_identity') }}">
+          <input type="hidden" name="user_type" value="manufacturer" />
+          <button type="submit" class="identity-card">
+            <h3>Manufacturer</h3>
+            <p>Report lifecycle emissions for devices, drugs, and components.</p>
+          </button>
+        </form>
+      </div>
+      
+
+    {% else %}
+      <h2>Create your NuvoCarbon account</h2>
+      <p class="hint">Hospitals, medical manufacturers and component vendors can onboard here.</p>
+
+      <!-- Signup box (default visible) -->
+      <div id="signup-box">
+        <form method="POST" action="{{ url_for('signup') }}">
+
+          <label>Your Name (Hospital / Manufacturing Unit)</label>
+          <input type="text" name="name" required />
+
+          <label>Email</label>
+          <input type="email" name="email" required />
+
+          <label>Password</label>
+          <input type="password" name="password" required />
+
+
+
+          <button type="submit" class="primary">Sign up</button>
+        </form>
+
+        <p class="switch-text">
+          Already have an account?
+          <a href="#" onclick="showSignIn(); return false;">Sign in</a>
+        </p>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Sign-in box (hidden initially) -->
+      <div id="signin-box" style="display: none;">
+        <h3 style="margin-top:0; font-size:1rem;">Sign in</h3>
+        <form method="POST" action="{{ url_for('login') }}">
+          <label>Email</label>
+          <input type="email" name="email" required />
+
+          <label>Password</label>
+          <input type="password" name="password" required />
+
+          <button type="submit" class="primary">Sign in</button>
+        </form>
+
+        <p class="switch-text">
+          New here?
+          <a href="#" onclick="showSignUp(); return false;">Create an account</a>
+        </p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  function showSignIn() {
+    document.getElementById('signup-box').style.display = 'none';
+    document.getElementById('signin-box').style.display = 'block';
+  }
+
+  function showSignUp() {
+    document.getElementById('signin-box').style.display = 'none';
+    document.getElementById('signup-box').style.display = 'block';
+  }
+</script>
+</body>
+</html>
